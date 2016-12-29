@@ -4,6 +4,7 @@
   "description": "Detect web applications and javascript libraries run on browsing website.",
   "main": "main.js",
   "scripts": {
+    "package": "rm -f framework-inspector.zip && zip framework-inspector.zip -r . -x '.git/*'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
