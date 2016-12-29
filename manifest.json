@@ -18,7 +18,7 @@
 	"content_scripts": [
 		{
 			"matches": ["http://*/*","https://*/*"],
-			"js": ["src/main.js"]
+			"js": ["build/main.js"]
 		}
 	],
   "permissions": [
@@ -28,6 +28,6 @@
     "https://*/*"
   ],
   "web_accessible_resources": [
-    "src/detector.js"
+    "build/detector.js"
   ]
 }

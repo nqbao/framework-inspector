@@ -4,7 +4,9 @@
   "description": "Detect web applications and javascript libraries run on browsing website.",
   "main": "main.js",
   "scripts": {
-    "package": "rm -f framework-inspector.zip && zip framework-inspector.zip -r . -x '.git/*'",
+    "watch": "webpack --config webpack.config.js --watch",
+    "build": "webpack --config webpack.config.js",
+    "package": "npm run build && rm -f framework-inspector.zip && zip framework-inspector.zip -r . -x '.git/*' -x './src/*' -x './node_modules/*'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,5 +18,12 @@
   "bugs": {
     "url": "https://github.com/nqbao/framework-inspector/issues"
   },
-  "homepage": "https://github.com/nqbao/framework-inspector"
+  "homepage": "https://github.com/nqbao/framework-inspector",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "webpack": "2.2.0-rc.3"
+  }
 }

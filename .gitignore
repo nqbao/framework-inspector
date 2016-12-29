@@ -1,3 +1,5 @@
 framework-inspector.zip
 Thumbs.db
+/build
 /.idea
+node_modules

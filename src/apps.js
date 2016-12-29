@@ -782,3 +782,5 @@ var appinfo = {
     url: 'http://google.com/search?q=%s'
   }
 };
+
+module.exports = appinfo;

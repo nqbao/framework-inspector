@@ -9,4 +9,4 @@ This extension originally named ChromeSniffer / AppSpector.
 
 ## How to test this extension
 
-You can follow the tutorial [here](https://developer.chrome.com/extensions/getstarted#unpacked) to load unpacked extension.
+You will need to run `npm run build`, and then follow this [link](https://developer.chrome.com/extensions/getstarted#unpacked) to load unpacked extension.

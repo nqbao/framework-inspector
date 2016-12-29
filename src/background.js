@@ -1,3 +1,5 @@
+var appinfo = require('./apps.js');
+
 window.dd = function(msg)
 {
   console.log(msg);
