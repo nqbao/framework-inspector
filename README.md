@@ -6,3 +6,7 @@ This is a chrome extension will help web developer to inspect web framework / CM
 Currently, this extension can detect more than 100 popular CMS and javascript libraries, and more will be added in future releases. Visit extension website for more detail.
 
 This extension originally named ChromeSniffer / AppSpector.
+
+## How to test this extension
+
+You can follow the tutorial [here](https://developer.chrome.com/extensions/getstarted#unpacked) to load unpacked extension.

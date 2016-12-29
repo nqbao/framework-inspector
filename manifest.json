@@ -18,7 +18,7 @@
 	"content_scripts": [
 		{
 			"matches": ["http://*/*","https://*/*"],
-			"js": ["main.js"]
+			"js": ["src/main.js"]
 		}
 	],
   "permissions": [
@@ -27,5 +27,7 @@
     "http://*/*",
     "https://*/*"
   ],
-  "web_accessible_resources": ["detector.js"]
+  "web_accessible_resources": [
+    "src/detector.js"
+  ]
 }

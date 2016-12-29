@@ -1,0 +1,19 @@
+{
+  "name": "framework-inspector",
+  "version": "1.0.0",
+  "description": "Detect web applications and javascript libraries run on browsing website.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nqbao/framework-inspector.git"
+  },
+  "author": "Bao Nguyen <b@nqbao.com>",
+  "license": "GPLv3",
+  "bugs": {
+    "url": "https://github.com/nqbao/framework-inspector/issues"
+  },
+  "homepage": "https://github.com/nqbao/framework-inspector"
+}

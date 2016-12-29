@@ -1,10 +1,10 @@
 /**
- * Chrome AppSniffer
+ * Framework Inspector
  *
  * Detect apps run on current page and send back to background page.
  * Some part of this script was refered from Wappalyzer Firefox Addon.
  *
- * @author Bao Nguyen <contact@nqbao.com>
+ * @author Bao Nguyen <b@nqbao.com>
  * @license GPLv3
  **/
 
