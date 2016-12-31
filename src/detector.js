@@ -7,6 +7,8 @@
  * @author Bao Nguyen <b@nqbao.com>
  * @license GPLv3
  **/
+import { EVENT_READY, META_TAG_ID } from './constants';
+import detectByMetaTag from './detector/metaTag';
 
 (function () {
   var _apps = {};
@@ -14,77 +16,7 @@
   var name;
   var r;
 
-  // 1: detect by meta tags, the first matching group will be version
-  var metas = doc.getElementsByTagName("meta");
-  var meta_tests = {
-    'generator': {
-      'Joomla': /joomla!?\s*([\d\.]+)?/i,
-      'vBulletin': /vBulletin\s*(.*)/i,
-      'WordPress': /WordPress\s*(.*)/i,
-      'XOOPS': /xoops/i,
-      'Plone': /plone/i,
-      'MediaWiki': /MediaWiki/i,
-      'CMSMadeSimple': /CMS Made Simple/i,
-      'SilverStripe': /SilverStripe/i,
-      'Movable Type': /Movable Type/i,
-      'Amiro.CMS': /Amiro/i,
-      'Koobi': /koobi/i,
-      'bbPress': /bbPress/i,
-      'DokuWiki': /dokuWiki/i,
-      'TYPO3': /TYPO3/i,
-      'PHP-Nuke': /PHP-Nuke/i,
-      'DotNetNuke': /DotNetNuke/i,
-      'Sitefinity': /Sitefinity\s+(.*)/i,
-      'WebGUI': /WebGUI/i,
-      'ez Publish': /eZ\s*Publish/i,
-      'BIGACE': /BIGACE/i,
-      'TypePad': /typepad\.com/i,
-      'Blogger': /blogger/i,
-      'PrestaShop': /PrestaShop/i,
-      'SharePoint': /SharePoint/,
-      'JaliosJCMS': /Jalios JCMS/i,
-      'ZenCart': /zen-cart/i,
-      'WPML': /WPML/i,
-      'PivotX': /PivotX/i,
-      'OpenACS': /OpenACS/i,
-      'AlphaCMS': /alphacms\s+(.*)/i,
-      'concrete5': /concrete5 -\s*(.*)$/,
-      'Webnode': /Webnode/,
-      'GetSimple': /GetSimple/,
-      'DataLifeEngine': /DataLife Engine/,
-      'ClanSphere': /ClanSphere/,
-      'Mura CMS': /Mura CMS\s*(.*)/i,
-      'Tiki Wiki CMS Groupware': /Tiki/i
-    },
-    'copyright': {
-      'phpBB': /phpBB/i
-    },
-    'elggrelease': {
-      'Elgg': /.+/
-    },
-    'powered-by': {
-      'Serendipity': /Serendipity/i
-    },
-    'author': {
-      'Avactis': /Avactis Team/i
-    }
-  };
-
-  for (var idx in metas) {
-    var m = metas[idx];
-    name = m.name ? m.name.toLowerCase() : "";
-
-    if (!meta_tests[name]) continue;
-
-    for (var t in meta_tests[name]) {
-      if (t in _apps) continue;
-
-      r = meta_tests[name][t].exec(m.content);
-      if (r) {
-        _apps[t] = r[1] ? r[1] : -1;
-      }
-    }
-  }
+  _apps = detectByMetaTag(_apps);
 
   // 2: detect by script tags
   var scripts = doc.getElementsByTagName("script");
@@ -463,11 +395,11 @@
   // convert to array
   var jsonString = JSON.stringify(_apps);
   // send back to background page
-  var meta = document.getElementById('chromesniffer_meta');
+  var meta = document.getElementById(META_TAG_ID);
   meta.content = jsonString;
 
   //Notify Background Page
   var done = document.createEvent('Event');
-  done.initEvent('ready', true, true);
+  done.initEvent(EVENT_READY, true, true);
   meta.dispatchEvent(done);
 })();

@@ -8,26 +8,27 @@
  * @license GPLv3
  **/
 
-(function () {
-  var head = document.getElementsByTagName('head')[0];
+import { EVENT_READY, META_TAG_NAME, META_TAG_ID } from './constants';
 
-  if (head) {
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = chrome.extension.getURL('build/detector.js');
+const head = document.getElementsByTagName('head')[0];
 
-    var meta = document.createElement('meta');
-    meta.name = 'chromesniffer';
-    meta.id = 'chromesniffer_meta';
-    head.appendChild(meta);
-    head.appendChild(script);
+if (head) {
+  const script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = chrome.extension.getURL('./detector.js');
 
-    meta.addEventListener('ready', function () {
-      var apps = JSON.parse(meta.content);
+  const meta = document.createElement('meta');
+  meta.name = META_TAG_NAME;
+  meta.id = META_TAG_ID;
+  head.appendChild(meta);
+  head.appendChild(script);
 
-      if (Object.keys(apps).length > 0) {
-        chrome.extension.sendMessage({msg: "result", apps: apps});
-      }
-    });
-  }
-})();
+  // wait for ready event
+  meta.addEventListener(EVENT_READY, function () {
+    const apps = JSON.parse(meta.content);
+
+    if (Object.keys(apps).length > 0) {
+      chrome.extension.sendMessage({msg: "result", apps: apps});
+    }
+  });
+}

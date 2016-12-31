@@ -1,11 +1,8 @@
-var appinfo = require('./apps.js');
+const appinfo = require('./apps.js');
+const tabinfo = {};
 
-window.dd = function(msg)
-{
-  console.log(msg);
-};
-
-var tabinfo = {};
+// expose appinfo page so that popup page can access to it
+window.appinfo = appinfo;
 
 // initial list of header detection.  will move this to a separate file later.
 var knownHeaders = {
@@ -49,21 +46,6 @@ var headerDetector = function (headers) {
   return appsFound;
 };
 
-// collect apps from header information:
-chrome.webRequest.onHeadersReceived.addListener(
-  function (details) {
-    var appsFound = headerDetector(details.responseHeaders);
-    tabinfo[details.tabId] = tabinfo[details.tabId] || {};
-    tabinfo[details.tabId]['headers'] = appsFound;
-  },
-  {
-    urls: ['<all_urls>'],
-    types: ['main_frame']
-  },
-  ['responseHeaders']
-);
-
-
 chrome.tabs.onRemoved.addListener(function (tabId) {
   // free memory
   delete tabinfo[tabId];
@@ -79,6 +61,8 @@ chrome.extension.onMessage.addListener(function (request, sender, sendResponse) 
     for (var header in thisTab['headers']) {
       thisTab['apps'][header] = thisTab['headers'][header];
     }
+
+    console.log(thisTab)
 
     // change the tab icon
     var mainApp = null;
@@ -121,4 +105,16 @@ chrome.extension.onMessage.addListener(function (request, sender, sendResponse) 
   }
 });
 
-
+// collect apps from header information:
+chrome.webRequest.onHeadersReceived.addListener(
+  function (details) {
+    var appsFound = headerDetector(details.responseHeaders);
+    tabinfo[details.tabId] = tabinfo[details.tabId] || {};
+    tabinfo[details.tabId]['headers'] = appsFound;
+  },
+  {
+    urls: ['<all_urls>'],
+    types: ['main_frame']
+  },
+  ['responseHeaders']
+);
