@@ -44,7 +44,12 @@ chrome.webRequest.onHeadersReceived.addListener(
 chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
   // 'result' event issued by main.js once app identification is complete
   if (request.msg == 'result') {
+    if (!tabinfo[sender.tab.id]) {
+      tabinfo[sender.tab.id] = {};
+    }
+
     var thisTab = tabinfo[sender.tab.id];
+
     thisTab['apps'] = request.apps;
 
     // merge with any apps we discovered via headers:

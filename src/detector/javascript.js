@@ -119,7 +119,12 @@ export default function detectByJavascript(doc, _apps) {
     },
     'Underscore.js': function () {
       return window._ && typeof(window._.identity) === 'function' &&
-        window._.identity('abc') === 'abc';
+        window._.identity('abc') === 'abc' && !window._.snakeCase;
+    },
+    'Lodash.js': function () {
+      // Lodash has an extra snakeCase function, while underscore does not have
+      return window._ && typeof(window._.identity) === 'function' &&
+        window._.identity('abc') === 'abc' && window._.snakeCase;
     },
     'Spine': function () {
       return window.Spine;
@@ -150,8 +155,9 @@ export default function detectByJavascript(doc, _apps) {
     }
   };
 
-  for (var t in js_tests) {
+  for (let t in js_tests) {
     if (t in _apps) continue;
+
     if (js_tests[t]()) {
       _apps[t] = -1;
     }
@@ -217,6 +223,10 @@ export default function detectByJavascript(doc, _apps) {
       if (window._ && window._.VERSION)
         return window._.VERSION;
     },
+    'Lodash.js': function () {
+      if (window._ && window._.VERSION)
+        return window._.VERSION;
+    },
     'Spine': function () {
       if (window.Spine && window.Spine.version)
         return window.Spine.version;
@@ -225,9 +235,9 @@ export default function detectByJavascript(doc, _apps) {
       if (window.angular && window.angular.version && 'full' in window.angular.version)
         return window.angular.version.full;
     },
-  'OpenLayers': function () {
-      if( window.OpenLayers && window.OpenLayers.VERSION_NUMBER )
-    return window.OpenLayers.VERSION_NUMBER;
+    'OpenLayers': function () {
+      if (window.OpenLayers && window.OpenLayers.VERSION_NUMBER)
+        return window.OpenLayers.VERSION_NUMBER;
     }
   };
 

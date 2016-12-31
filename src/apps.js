@@ -546,7 +546,12 @@ var appinfo = {
   },
   'Underscore.js': {
     icon: 'Underscore.png',
-    url: 'http://documentcloud.github.com/underscore/',
+    url: 'http://underscorejs.org/',
+    priority: 2.9
+  },
+  'Lodash.js': {
+    icon: 'lodash.svg',
+    url: 'https://lodash.com',
     priority: 2.9
   },
 

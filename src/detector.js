@@ -14,30 +14,25 @@ import detectByHtmlContent from './detector/htmlContent';
 import detectByJavascript from './detector/javascript';
 import detectByCssClass from './detector/cssClass';
 
-(function () {
-  var _apps = {};
-  var doc = document.documentElement;
-  var name;
-  var r;
+let _apps = {};
+const doc = document.documentElement;
 
-  [
-    detectByMetaTag,
-    detectByScriptTag,
-    detectByHtmlContent,
-    detectByJavascript,
-    detectByCssClass
-  ].forEach(fn => {
-    _apps = fn(doc, _apps);
-  });
+// run all the steps!
+[
+  detectByMetaTag,
+  detectByScriptTag,
+  detectByHtmlContent,
+  detectByJavascript,
+  detectByCssClass
+].forEach(fn => {
+  _apps = fn(doc, _apps);
+});
 
-  // convert to array
-  var jsonString = JSON.stringify(_apps);
-  // send back to background page
-  var meta = document.getElementById(META_TAG_ID);
-  meta.content = jsonString;
+// send back to background page
+var meta = document.getElementById(META_TAG_ID);
+meta.content = JSON.stringify(_apps);
 
-  //Notify Background Page
-  var done = document.createEvent('Event');
-  done.initEvent(EVENT_READY, true, true);
-  meta.dispatchEvent(done);
-})();
+// notify Background Page
+var done = document.createEvent('Event');
+done.initEvent(EVENT_READY, true, true);
+meta.dispatchEvent(done);
