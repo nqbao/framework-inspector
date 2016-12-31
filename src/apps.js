@@ -735,6 +735,8 @@ var appinfo = {
     url: 'http://livestreetcms.com/',
     priority: 1
   },
+
+  // === Webservers / Langauges ===
   'PHP': {
     icon: 'php.ico',
     url: 'http://php.net/',
@@ -747,33 +749,27 @@ var appinfo = {
   },
   'nginx': {
     icon: 'nginx.ico',
-    url: 'http://nginx.org/en/',
-    priority: 1.5
+    url: 'http://nginx.org/en/'
   },
   'Varnish': {
     icon: 'varnish.ico',
-    url: 'https://www.varnish-cache.org/',
-    priority: 1.5
+    url: 'https://www.varnish-cache.org/'
   },
   'IIS': {
     icon: 'iis.ico',
-    url: 'http://www.iis.net/',
-    priority: 1.5
+    url: 'http://www.iis.net/'
   },
   'ASP.NET': {
     icon: 'asp.net.ico',
-    url: 'http://www.asp.net/',
-    priority: 1.5
+    url: 'http://www.asp.net/'
   },
   'Nette': {
     icon: 'nette.ico',
-    url: 'http://nette.org/',
-    priority: 1.5
+    url: 'http://nette.org/'
   },
   'Dinkly': {
     icon: 'dinkly.ico',
-    url: 'https://github.com/lewsid/dinkly/',
-    priority: 1.5
+    url: 'https://github.com/lewsid/dinkly/'
   },
 
   // ==== misc ====

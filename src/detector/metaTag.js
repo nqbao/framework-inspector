@@ -55,8 +55,7 @@ const rules = {
 /**
  * Detect by meta tags, the first matching group will be version
  */
-export default function detectByMetaTag(apps) {
-  const doc = document.documentElement;
+export default function detectByMetaTag(doc, apps) {
   const metas = doc.getElementsByTagName("meta");
 
   for (let idx in metas) {

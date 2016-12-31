@@ -1,55 +1,45 @@
+import detectByHeader from './detector/header';
+
 const appinfo = require('./apps.js');
 const tabinfo = {};
 
 // expose appinfo page so that popup page can access to it
 window.appinfo = appinfo;
 
-// initial list of header detection.  will move this to a separate file later.
-var knownHeaders = {
-  'x-powered-by': {
-    // 'Ruby on Rails': /Phusion Passenger/,
-    'Express.js': /Express/,
-    'PHP': /PHP\/?(.*)/,
-    'Dinkly': /DINKLY\/?(.*)/,
-    'ASP.NET': /ASP\.NET/,
-    'Nette': /Nette Framework/
-  },
-  'server': {
-    'Apache': /Apache\/?(.*)/,
-    'nginx': /nginx\/?(.*)/,
-    'IIS': /Microsoft-IIS\/?(.*)/
-  },
-  'via': {
-    'Varnish': /(.*) varnish/
-  }
-};
+const pickMainApp = apps => {
+  let mainApp = null;
 
-// Scans through the headers finding matches, and returning the val from appinfo (apps.js)
-var headerDetector = function (headers) {
-  var appsFound = [];
-
-  // loop through all the headers received
-  for (var i = headers.length - 1; i >= 0; i--) {
-    var apps = knownHeaders[headers[i].name.toLowerCase()];
-    if (!apps) {
+  for (let app in apps) {
+    if (mainApp === null) {
+      mainApp = app;
       continue;
     }
-    for (var app in apps) {
-      var matches = headers[i].value.match(apps[app]);
-      if (matches) {
-        var version = matches[1] || -1;
-        appsFound[app] = version;
+
+    if (appinfo[app].priority) {
+      if (!appinfo[mainApp].priority) {
+        mainApp = app;
+      } else if (appinfo[mainApp].priority > appinfo[app].priority) {
+        mainApp = app;
       }
     }
   }
 
-  return appsFound;
+  return mainApp;
 };
 
-chrome.tabs.onRemoved.addListener(function (tabId) {
-  // free memory
-  delete tabinfo[tabId];
-});
+// collect apps from header information:
+chrome.webRequest.onHeadersReceived.addListener(
+  function (details) {
+    var appsFound = detectByHeader(details.responseHeaders);
+    tabinfo[details.tabId] = tabinfo[details.tabId] || {};
+    tabinfo[details.tabId]['headers'] = appsFound;
+  },
+  {
+    urls: ['<all_urls>'],
+    types: ['main_frame']
+  },
+  ['responseHeaders']
+);
 
 chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
   // 'result' event issued by main.js once app identification is complete
@@ -57,35 +47,16 @@ chrome.extension.onMessage.addListener(function (request, sender, sendResponse) 
     var thisTab = tabinfo[sender.tab.id];
     thisTab['apps'] = request.apps;
 
-    // load in any apps we discovered from headers:
+    // merge with any apps we discovered via headers:
     for (var header in thisTab['headers']) {
       thisTab['apps'][header] = thisTab['headers'][header];
     }
 
-    console.log(thisTab)
-
     // change the tab icon
-    var mainApp = null;
-
-    for (var app in request.apps) {
-      if (mainApp === null) {
-        mainApp = app;
-        continue;
-      }
-
-      if (appinfo[app].priority) {
-        if (!appinfo[mainApp].priority) {
-          mainApp = app;
-        }
-        else if (appinfo[mainApp].priority > appinfo[app].priority) {
-          mainApp = app;
-        }
-      }
-    }
-
-    var mainAppInfo = appinfo[mainApp];
+    const mainApp = pickMainApp(request.apps);
+    const mainAppInfo = appinfo[mainApp];
     if (mainAppInfo) { // lazy bug
-      var appTitle = mainAppInfo.title ? mainAppInfo.title : mainApp;
+      let appTitle = mainAppInfo.title ? mainAppInfo.title : mainApp;
 
       if (request.apps[mainApp] != "-1") {
         appTitle = mainApp + ' ' + request.apps[mainApp];
@@ -97,24 +68,14 @@ chrome.extension.onMessage.addListener(function (request, sender, sendResponse) 
 
     chrome.pageAction.show(sender.tab.id);
     sendResponse({});
-  }
-  else if (request.msg == 'get') {
+  } else if (request.msg == 'get') {
     // Request for 'get' comes from the popup page, asking for the list of apps
     var apps = tabinfo[request.tab];
     sendResponse(apps);
   }
 });
 
-// collect apps from header information:
-chrome.webRequest.onHeadersReceived.addListener(
-  function (details) {
-    var appsFound = headerDetector(details.responseHeaders);
-    tabinfo[details.tabId] = tabinfo[details.tabId] || {};
-    tabinfo[details.tabId]['headers'] = appsFound;
-  },
-  {
-    urls: ['<all_urls>'],
-    types: ['main_frame']
-  },
-  ['responseHeaders']
-);
+// when tab is closed, also delete its info
+chrome.tabs.onRemoved.addListener(function (tabId) {
+  delete tabinfo[tabId];
+});
