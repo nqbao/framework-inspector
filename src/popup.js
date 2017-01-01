@@ -1,12 +1,14 @@
+import { retriveAppInfo } from './helpers/appInfo';
+
 const bg = chrome.extension.getBackgroundPage();
 
 chrome.tabs.getSelected(null, function(tab){
-  chrome.extension.sendMessage({msg: "get",tab: tab.id}, function(response){
+  retriveAppInfo(tab.id, function(response) {
     var display = document.getElementById('app_list');
 
     var apps = response && response.apps ? response.apps : {};
     var html = '';
-    
+
     var appinfo = bg.appinfo;
     var count = 0;
   

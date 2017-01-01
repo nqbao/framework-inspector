@@ -2,6 +2,7 @@ import detectByHeader from './detector/header';
 
 const appinfo = require('./apps.js');
 const tabinfo = {};
+const devtoolConnections = {};
 
 // expose appinfo page so that popup page can access to it
 window.appinfo = appinfo;
@@ -43,18 +44,22 @@ chrome.webRequest.onHeadersReceived.addListener(
 
 chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
   // 'result' event issued by main.js once app identification is complete
-  if (request.msg == 'result') {
+  if (request.msg === 'result') {
     if (!tabinfo[sender.tab.id]) {
       tabinfo[sender.tab.id] = {};
     }
 
-    var thisTab = tabinfo[sender.tab.id];
-
+    const thisTab = tabinfo[sender.tab.id];
     thisTab['apps'] = request.apps;
 
     // merge with any apps we discovered via headers:
-    for (var header in thisTab['headers']) {
+    for (let header in thisTab['headers']) {
       thisTab['apps'][header] = thisTab['headers'][header];
+    }
+
+    // broadcast to devtools
+    if (devtoolConnections[sender.tab.id]) {
+      devtoolConnections[sender.tab.id].postMessage(thisTab);
     }
 
     // change the tab icon
@@ -73,14 +78,30 @@ chrome.extension.onMessage.addListener(function (request, sender, sendResponse) 
 
     chrome.pageAction.show(sender.tab.id);
     sendResponse({});
-  } else if (request.msg == 'get') {
+  } else if (request.msg === 'get') {
     // Request for 'get' comes from the popup page, asking for the list of apps
-    var apps = tabinfo[request.tab];
-    sendResponse(apps);
+    sendResponse(tabinfo[request.tab]);
+  } else if (request.msg === 'debug') {
+    console.debug(request.payload);
   }
 });
 
 // when tab is closed, also delete its info
 chrome.tabs.onRemoved.addListener(function (tabId) {
   delete tabinfo[tabId];
+});
+
+chrome.runtime.onConnect.addListener(function(connection) {
+  const tabId = connection.name.split('-')[2];
+  devtoolConnections[tabId] = connection;
+  
+  console.debug(`Devtool ${tabId} connected.`);
+
+  connection.onDisconnect.addListener(function() {
+    console.debug(`Devtool ${tabId} disconnected.`);
+    delete devtoolConnections[tabId];
+  });
+
+  // send the first appInfo
+  connection.postMessage(tabinfo[tabId] || {});
 });

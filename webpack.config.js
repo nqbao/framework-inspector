@@ -5,14 +5,25 @@ module.exports = {
     main: "./src/main.js",
     detector: "./src/detector.js",
     background: "./src/background.js",
-    popup: "./src/popup.js"
+    popup: "./src/popup.js",
+    devtools: "./src/devtools.js",
+    framework_pane: "./src/framework_pane.js"
   },
+  devtool: 'source-map',
   module: {
     loaders: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
+      },
+      {
+        test: /\.(png|jpg|jpeg)$/,
+        loader: 'file-loader'
+      },
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader'
       }
     ]
   },
