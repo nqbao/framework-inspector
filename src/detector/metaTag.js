@@ -39,7 +39,7 @@ const rules = {
     'Tiki Wiki CMS Groupware': /Tiki/i
   },
   'copyright': {
-    'phpBB': /phpBB/i
+    'phpBB': /phpBB/i // is this still valid ?
   },
   'elggrelease': {
     'Elgg': /.+/
@@ -60,11 +60,11 @@ export default function detectByMetaTag(doc, apps) {
 
   for (let idx in metas) {
     const m = metas[idx];
-    name = m.name ? m.name.toLowerCase() : "";
+    const name = m.name ? m.name.toLowerCase() : "";
 
     if (!rules[name]) continue;
 
-    for (var t in rules[name]) {
+    for (let t in rules[name]) {
       if (t in apps) continue;
 
       const r = rules[name][t].exec(m.content);

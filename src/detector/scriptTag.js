@@ -21,7 +21,7 @@ const rules = {
   'Cappuccino': /Frameworks\/Objective-J\/Objective-J\.js/,
   'Avactis': /\/avactis-themes\//i,
   'Volusion': /a\/j\/javascripts\.js/,
-  'AddThis': /addthis\.com\/js/,
+  'AddThis': /addthis\.com\/(addthis_widget\.)?js/,
   'BuySellAds': /buysellads.com\/.*bsa\.js/,
   'Weebly': /weebly\.com\/weebly\//,
   'Bootstrap': /bootstrap-.*\.js/,

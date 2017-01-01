@@ -2,28 +2,16 @@
  * Detect by inline javascript
  */
 export default function detectByJavascript(doc, _apps) {
-  var js_tests = {
-    'Drupal': function () {
-      return window.Drupal;
-    },
-    'TomatoCMS': function () {
-      return window.Tomato;
-    },
-    'MojoMotor': function () {
-      return window.Mojo;
-    },
-    'ErainCart': function () {
-      return window.fn_register_hooks;
-    },
-    'SugarCRM': function () {
-      return window.SUGAR;
-    },
-    'YUI': function () {
-      return window.YAHOO | window.YUI;
-    },
-    'jQuery': function () {
-      return window.jQuery;
-    },
+  const js_tests = {
+    'Drupal': () => window.Drupal,
+    'phpBB': () => window.phpbb,
+    'Magento': () => Boolean(window.Mage && window.Minicart),
+    'TomatoCMS': () => window.Tomato,
+    'MojoMotor': () => window.Mojo,
+    'ErainCart': () => window.fn_register_hooks,
+    'SugarCRM': () => window.SUGAR,
+    'YUI': () => window.YAHOO || window.YUI,
+    'jQuery': () => window.jQuery,
     'jQuery UI': function () {
       return window.jQuery && window.jQuery.ui;
     },
@@ -86,9 +74,6 @@ export default function detectByJavascript(doc, _apps) {
     },
     'Coremetrics': function () {
       return window.cmCreatePageviewTag;
-    },
-    'Buzz': function () {
-      return window.google_buzz__base_url;
     },
     'Plus1': function () {
       return window.gapi && window.gapi.plusone;
@@ -164,7 +149,7 @@ export default function detectByJavascript(doc, _apps) {
   }
 
   // TODO: merge with above
-  var js_versions = {
+  const js_versions = {
     'Prototype': function () {
       if ('Prototype' in window && Prototype.Version !== undefined)
         return window.Prototype.Version;
@@ -241,7 +226,7 @@ export default function detectByJavascript(doc, _apps) {
     }
   };
 
-  for (var a in _apps) {
+  for (let a in _apps) {
     if (_apps[a] === -1 && js_versions[a]) {
       const r = js_versions[a]();
       _apps[a] = r ? r : -1;

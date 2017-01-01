@@ -19,20 +19,20 @@ const doc = document.documentElement;
 
 // run all the steps!
 [
+  detectByJavascript,
   detectByMetaTag,
   detectByScriptTag,
-  detectByHtmlContent,
-  detectByJavascript,
-  detectByCssClass
+  detectByCssClass,
+  detectByHtmlContent
 ].forEach(fn => {
   _apps = fn(doc, _apps);
 });
 
 // send back to background page
-var meta = document.getElementById(META_TAG_ID);
+const meta = document.getElementById(META_TAG_ID);
 meta.content = JSON.stringify(_apps);
 
 // notify Background Page
-var done = document.createEvent('Event');
+const done = document.createEvent('Event');
 done.initEvent(EVENT_READY, true, true);
 meta.dispatchEvent(done);

@@ -7,7 +7,7 @@
  * @license GPLv3
  **/
 
-var appinfo = {
+const appinfo = {
   // ==== services ====
   'Tumblr': {
     icon: 'Tumblr.ico',
@@ -118,7 +118,7 @@ var appinfo = {
   },
 
   'WordPress': {
-    icon: 'WordPress.ico',
+    icon: 'Wordpress.svg',
     url: 'http://wordpress.org',
     priority: 1
   },
@@ -475,9 +475,9 @@ var appinfo = {
     priority: 1.9
   },
   'Angular': {
-    icon: 'angular.ico',
+    icon: 'angular.svg',
     url: 'http://angularjs.org/',
-    priority: 1.5
+    priority: 2.9
   },
   'Zepto': {
     icon: 'zepto.png',
@@ -512,7 +512,7 @@ var appinfo = {
   },
   'Facebook': {
     title: 'Facebook Social plugins',
-    icon: 'facebook.ico',
+    icon: 'facebook.svg',
     url: 'http://developers.facebook.com/',
     priority: 2.9
   },
@@ -522,12 +522,6 @@ var appinfo = {
     url: 'http://dev.twitter.com',
     priority: 2.9
   },
-  'Buzz': {
-    title: 'Google Buzz Button',
-    icon: 'buzz.png',
-    url: 'http://www.google.com/buzz/stuff',
-    priority: 2.9
-  },
   'Plus1': {
     title: 'Google Plus 1',
     icon: 'plus1.svg',
@@ -535,30 +529,30 @@ var appinfo = {
     priority: 2.9
   },
   'AddThis': {
-    icon: 'addthis.ico',
+    icon: 'addthis.png',
     url: 'http://www.addthis.com',
     priority: 2.9
   },
   'Backbone.js': {
-    icon: 'Backbone.png',
-    url: 'http://documentcloud.github.com/backbone/',
-    priority: 1.9
+    icon: 'Backbone.svg',
+    url: 'http://backbonejs.org/',
+    priority: 2.9
   },
   'Underscore.js': {
     icon: 'Underscore.png',
     url: 'http://underscorejs.org/',
-    priority: 2.9
+    priority: 2.8
   },
   'Lodash.js': {
     icon: 'lodash.svg',
     url: 'https://lodash.com',
-    priority: 2.9
+    priority: 2.8
   },
 
   'Head JS': {
     icon: 'headjs.gif',
     url: 'http://headjs.com',
-    priority: 2.9
+    priority: 2.8
   },
   'Google Loader': {
     icon: 'google.svg',
@@ -631,7 +625,7 @@ var appinfo = {
   'Prettify': {
     title: 'Google Code Prettify',
     icon: 'google.svg',
-    url: 'http://code.google.com/p/google-code-prettify/',
+    url: 'https://github.com/google/code-prettify',
     priority: 3
   },
   'reCaptcha': {
@@ -741,7 +735,7 @@ var appinfo = {
     priority: 1
   },
 
-  // === Webservers / Langauges ===
+  // === Webservers / Languages ===
   'PHP': {
     icon: 'php.ico',
     url: 'http://php.net/',

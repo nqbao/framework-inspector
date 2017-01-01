@@ -28,6 +28,18 @@ const pickMainApp = apps => {
   return mainApp;
 };
 
+
+const gatherFullAppInfo = apps => {
+  const fullAppInfo = {};
+  for (let appId in apps) {
+    fullAppInfo[appId] = Object.assign({
+      version: apps[appId]
+    }, appinfo[appId]);
+  }
+
+  return fullAppInfo;
+};
+
 // collect apps from header information:
 chrome.webRequest.onHeadersReceived.addListener(
   function (details) {
@@ -59,7 +71,7 @@ chrome.extension.onMessage.addListener(function (request, sender, sendResponse) 
 
     // broadcast to devtools
     if (devtoolConnections[sender.tab.id]) {
-      devtoolConnections[sender.tab.id].postMessage(thisTab);
+      devtoolConnections[sender.tab.id].postMessage({ apps: gatherFullAppInfo(thisTab.apps) });
     }
 
     // change the tab icon
@@ -83,6 +95,10 @@ chrome.extension.onMessage.addListener(function (request, sender, sendResponse) 
     sendResponse(tabinfo[request.tab]);
   } else if (request.msg === 'debug') {
     console.debug(request.payload);
+  } else if (request.msg === 'openTab') {
+    chrome.tabs.create({
+      url: request.url
+    });
   }
 });
 
@@ -103,5 +119,7 @@ chrome.runtime.onConnect.addListener(function(connection) {
   });
 
   // send the first appInfo
-  connection.postMessage(tabinfo[tabId] || {});
+  connection.postMessage({
+    apps: gatherFullAppInfo(tabinfo[tabId] && tabinfo[tabId].apps || {})
+  });
 });

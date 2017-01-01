@@ -1,6 +1,6 @@
 const rules = {
   'SMF': /<script .+\s+var smf_/i,
-  'Magento': /var BLANK_URL = '[^>]+js\/blank\.html'/i,
+  'Magento': /var BLANK_URL = '[^>]+js\/blank\.html'/i, // TODO: this could be deprecated with js check for Mage object
   'Tumblr': /<iframe src=("|')http:\/\/\S+\.tumblr\.com/i,
   'WordPress': /<link rel=("|')stylesheet("|') [^>]+wp-content/i,
   'Closure': /<script[^>]*>.*goog\.require/i,
