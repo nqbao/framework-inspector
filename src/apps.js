@@ -530,7 +530,7 @@ var appinfo = {
   },
   'Plus1': {
     title: 'Google Plus 1',
-    icon: 'plus1.png',
+    icon: 'plus1.svg',
     url: 'http://www.google.com/+1/button/',
     priority: 2.9
   },
@@ -561,7 +561,7 @@ var appinfo = {
     priority: 2.9
   },
   'Google Loader': {
-    icon: 'google.ico',
+    icon: 'google.svg',
     url: 'http://code.google.com/apis/loader',
     priority: 2.9
   },
@@ -630,7 +630,7 @@ var appinfo = {
   },
   'Prettify': {
     title: 'Google Code Prettify',
-    icon: 'google.ico',
+    icon: 'google.svg',
     url: 'http://code.google.com/p/google-code-prettify/',
     priority: 3
   },
@@ -753,7 +753,7 @@ var appinfo = {
     priority: 1.5
   },
   'nginx': {
-    icon: 'nginx.ico',
+    icon: 'nginx.png',
     url: 'http://nginx.org/en/'
   },
   'Varnish': {
