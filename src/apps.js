@@ -451,7 +451,7 @@ const appinfo = {
   },
   'YUI': {
     icon: 'YUI.ico',
-    url: 'http://developer.yahoo.com/yui/',
+    url: 'http://yuilibrary.com/',
     priority: 2
   },
   'Cappuccino': {

@@ -1,10 +1,12 @@
 import { Component } from 'preact';
-import AppIcon from './app-icon';
+// import Grid from './grid';
+import Table from './table';
+import './style.css';
 
 export default class App extends Component {
   render(props, state) {
     const apps = props.apps;
-    const openTab = props.openTab;
+    const numApps = apps ? Object.keys(apps).length : 0;
 
     if (apps === null || apps === undefined) {
       return (
@@ -12,22 +14,18 @@ export default class App extends Component {
           Analyzing ...
         </div>
       );
-    } else if (Object.keys(apps).length === 0) {
+    } else if (numApps === 0) {
       return (
         <div>
-          We are unable to detect any framework on this site.
+          We are unable to detect any framework or tool on this site.
         </div>
       );
     }
 
     return (
       <div>
-        We found the following frameworks and tools available on this site:
-        <div style={{ marginTop: '8px' }}>
-          {Object.keys(apps).map(
-            name => <AppIcon name={name} openTab={openTab} {...apps[name]} />
-          )}
-        </div>
+        We found {numApps > 1 ? `${numApps} frameworks or tools` : '1 framework or tool'} available on this site:
+        <Table {...props} />
       </div>
     );
   }

@@ -33,8 +33,8 @@ module.exports = {
   },
   plugins: [
     new CopyWebpackPlugin([
-      { from: './src/extension/**', to: './', flatten: true },
       { from: './resources/*.png', to: './', flatten: true },
+      { from: './resources/extension/**', to: './', flatten: true },
       { from: './resources/apps/**', to: './apps', flatten: true },
     ])
   ]

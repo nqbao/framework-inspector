@@ -44,7 +44,7 @@ export default function detectByScriptTag(doc, _apps) {
     const s = scripts[idx].src;
     if (!s) continue;
 
-    for (var t in rules) {
+    for (let t in rules) {
       if (t in _apps) continue;
       if (rules[t].test(s)) {
         _apps[t] = -1;

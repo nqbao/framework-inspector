@@ -1,0 +1,27 @@
+body, table {
+  font-size: 14px;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+img {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+tr td, tr th {
+  vertical-align: middle;
+  text-align: left;
+  border-bottom: 1px solid silver;
+  padding: 8px 0;
+}
+
+tr td * {
+  vertical-align: middle;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}

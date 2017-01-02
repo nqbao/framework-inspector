@@ -1,28 +1,25 @@
+const rules = {
+  'Bootstrap': ['hero-unit', '.carousel-control', '[class^="icon-"]:last-child']
+};
+
 /**
  * Detect based on defined css classes
  */
 export default function detectByCssClass(doc, _apps) {
-  var cssClasses = {
-    'Bootstrap': ['hero-unit', '.carousel-control', '[class^="icon-"]:last-child']
-  };
-
-  for (var t in cssClasses) {
+  for (let t in rules) {
     if (t in _apps) continue;
 
-    var found = true;
-    for (var css in cssClasses[t]) {
-      var act = false;
-      name = cssClasses[t][css];
+    let found = true;
+    for (let css in rules[t]) {
+      let act = false;
+      const name = rules[t][css];
 
       /* Iterate through all registered css classes and check for presence */
-      for (var cssFile in document.styleSheets) {
-        for (var cssRule in document.styleSheets[cssFile].cssRules) {
-          var style = document.styleSheets[cssFile].cssRules[cssRule];
+      for (let cssFile in document.styleSheets) {
+        for (let cssRule in document.styleSheets[cssFile].cssRules) {
+          const style = document.styleSheets[cssFile].cssRules[cssRule];
 
-          if (typeof style === "undefined") continue;
-          if (typeof style.selectorText === "undefined") continue;
-
-          if (style.selectorText.indexOf(name) !== -1) {
+          if (style && style.selectorText && style.selectorText.indexOf(name) !== -1) {
             act = true;
             break;
           }
@@ -35,8 +32,7 @@ export default function detectByCssClass(doc, _apps) {
 
     if (found === true) {
       _apps[t] = -1;
-    }
-    else {
+    } else {
       break;
     }
   }

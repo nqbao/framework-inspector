@@ -4,7 +4,8 @@ const appinfo = require('./apps.js');
 const tabinfo = {};
 const devtoolConnections = {};
 
-// expose appinfo page so that popup page can access to it
+// expose appinfo page so that popup page can access to it, we can simply remove this later
+// when we send full app info to user
 window.appinfo = appinfo;
 
 const pickMainApp = apps => {
@@ -28,7 +29,6 @@ const pickMainApp = apps => {
   return mainApp;
 };
 
-
 const gatherFullAppInfo = apps => {
   const fullAppInfo = {};
   for (let appId in apps) {
@@ -43,7 +43,7 @@ const gatherFullAppInfo = apps => {
 // collect apps from header information:
 chrome.webRequest.onHeadersReceived.addListener(
   function (details) {
-    var appsFound = detectByHeader(details.responseHeaders);
+    const appsFound = detectByHeader(details.responseHeaders);
     tabinfo[details.tabId] = tabinfo[details.tabId] || {};
     tabinfo[details.tabId]['headers'] = appsFound;
   },
@@ -55,8 +55,8 @@ chrome.webRequest.onHeadersReceived.addListener(
 );
 
 chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
-  // 'result' event issued by main.js once app identification is complete
   if (request.msg === 'result') {
+    // 'result' event issued by main.js once app identification is complete
     if (!tabinfo[sender.tab.id]) {
       tabinfo[sender.tab.id] = {};
     }
@@ -91,7 +91,7 @@ chrome.extension.onMessage.addListener(function (request, sender, sendResponse) 
     chrome.pageAction.show(sender.tab.id);
     sendResponse({});
   } else if (request.msg === 'get') {
-    // Request for 'get' comes from the popup page, asking for the list of apps
+    // Request for 'get' comes from the popup or devtools page, asking for the list of apps
     sendResponse(tabinfo[request.tab]);
   } else if (request.msg === 'debug') {
     console.debug(request.payload);
