@@ -14,12 +14,16 @@ img {
 tr td, tr th {
   vertical-align: middle;
   text-align: left;
-  border-bottom: 1px solid silver;
-  padding: 8px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 6px 2px;
 }
 
 tr td * {
   vertical-align: middle;
+}
+
+tr:nth-child(even) td {
+  background: #f9f9f9;
 }
 
 tr:last-child td {

@@ -7,7 +7,7 @@ export default class Grid extends Component {
     return (
       <div style={{ marginTop: '8px' }}>
         {Object.keys(apps).map(
-          name => <AppIcon name={name} openTab={openTab} {...apps[name]} />
+          name => <AppIcon size={48} name={name} openTab={openTab} {...apps[name]} />
         )}
       </div>
     );

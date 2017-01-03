@@ -8,10 +8,10 @@ export default class AppTableList extends Component {
       <tr key={name}>
         <td>
           <img width={16} height={16} src={`apps/${icon}`} alt={fullTitle} />
-          <span>{fullTitle}</span>
+          &nbsp;<span>{fullTitle}</span>
         </td>
         <td>
-          {version !== -1 ? version : ''}
+          {version !== -1 ? version : '-'}
         </td>
       </tr>
     )
@@ -23,8 +23,8 @@ export default class AppTableList extends Component {
         <table width='100%'>
           <thead>
             <tr>
-              <th width='40%'>Name</th>
-              <th width='60%'>Version</th>
+              <th width='30%'>Name</th>
+              <th width='70%'>Version</th>
             </tr>
           </thead>
           <tbody>
