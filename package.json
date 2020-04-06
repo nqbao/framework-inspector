@@ -23,6 +23,7 @@
     "preact": "^7.2.1"
   },
   "devDependencies": {
+    "js-yaml": ">=3.13.1",
     "babel-core": "^6.26.3",
     "babel-loader": "^6.4.1",
     "babel-plugin-syntax-flow": "^6.18.0",
